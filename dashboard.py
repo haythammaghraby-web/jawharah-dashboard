@@ -21,7 +21,7 @@ EXCEL_URL = (
     "https://privatedeals-my.sharepoint.com/:x:/g/personal/"
     "haytham_privatedeals_onmicrosoft_com/"
     "IQB3NoyTcTL5QpOXy66FaKXqAY2c0vR6KA3qIDJeUDQvmxo"
-    "?e=TBvcfr&download=1"
+    "?e=mFH2IE&download=1"
 )
 KMZ_URL = (
     "https://privatedeals-my.sharepoint.com/:u:/g/personal/"
@@ -85,15 +85,27 @@ DARK = dict(template="plotly_dark", paper_bgcolor="rgba(0,0,0,0)",
 # ═══════════════════════════════════════════════════════════════
 #  LOADERS
 # ═══════════════════════════════════════════════════════════════
+# ── Excel file name in GitHub repo (same folder as dashboard.py) ──
+EXCEL_LOCAL = "مشروع_الجوهرة_30-12-2025_dashboard.xlsm"
+
 @st.cache_data(ttl=REFRESH_MIN*60, show_spinner=False)
 def download_excel_bytes(url):
-    """Download Excel bytes only — bytes are serializable for st.cache_data"""
-    hdrs = {"User-Agent":"Mozilla/5.0"}
+    """Try local file first (GitHub deployment), then URL"""
+    import os
+    # 1. Local file (works on Streamlit Cloud when file is in repo)
+    if os.path.exists(EXCEL_LOCAL):
+        try:
+            with open(EXCEL_LOCAL, "rb") as f:
+                return f.read(), None
+        except Exception as e:
+            pass
+    # 2. Remote URL fallback
+    hdrs = {"User-Agent": "Mozilla/5.0"}
     try:
         r = requests.get(url, headers=hdrs, timeout=40, allow_redirects=True)
         r.raise_for_status()
         if len(r.content) < 1000:
-            return None, f"رد غير متوقع ({len(r.content)} bytes) — تأكد من رابط المشاركة"
+            return None, f"رد غير متوقع ({len(r.content)} bytes)"
         return r.content, None
     except Exception as e:
         return None, str(e)
