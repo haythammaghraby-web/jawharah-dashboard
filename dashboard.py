@@ -21,13 +21,13 @@ EXCEL_URL = (
     "https://privatedeals-my.sharepoint.com/:x:/g/personal/"
     "haytham_privatedeals_onmicrosoft_com/"
     "IQB3NoyTcTL5QpOXy66FaKXqAY2c0vR6KA3qIDJeUDQvmxo"
-    "?e=mFH2IE&download=1"
+    "?e=U0kImN&download=1"
 )
 KMZ_URL = (
     "https://privatedeals-my.sharepoint.com/:u:/g/personal/"
     "haytham_privatedeals_onmicrosoft_com/"
     "IQCiy9gIIcP6TYJfT5Z3HvXuAX4VTAGjU9daHJnIxAgsAw4"
-    "?e=BeUHJi&download=1"
+    "?e=m62bzD&download=1"
 )
 REFRESH_MIN = 5
 
