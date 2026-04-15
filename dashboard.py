@@ -411,22 +411,22 @@ with T2:
         fig_z.add_trace(go.Bar(
             name="الطول الكلي",
             x=zdf["المنطقة"], y=zdf["الطول الكلي (م)"],
-            marker_color="#2c4a6e",
-            text=zdf["الطول الكلي (م)"].apply(lambda v: f"{v:,.0f}"),
-            textposition="outside", textfont=dict(family="Cairo", size=10),
+            marker=dict(color="#1a4a7a", line=dict(width=0)),
+            hovertemplate="%{x}<br>الطول الكلي: %{y:,.0f} م<extra></extra>",
         ))
         fig_z.add_trace(go.Bar(
             name="الطول المنفذ",
             x=zdf["المنطقة"], y=zdf["الطول المنفذ (م)"],
-            marker_color="#c9a84c",
-            text=zdf["الطول المنفذ (م)"].apply(lambda v: f"{v:,.0f}" if v>0 else ""),
-            textposition="outside", textfont=dict(family="Cairo", size=10),
+            marker=dict(color="#c9a84c", line=dict(width=0)),
+            hovertemplate="%{x}<br>المنفذ: %{y:,.0f} م<extra></extra>",
         ))
         fig_z.update_layout(
-            **DARK, height=400, barmode="group",
+            **DARK, height=420, barmode="group",
             margin=dict(l=0,r=0,t=10,b=0),
             legend=dict(orientation="h", y=1.05),
-            xaxis=dict(title=""), yaxis=dict(title="متر"),
+            xaxis=dict(title=""),
+            yaxis=dict(title="متر", gridcolor="rgba(255,255,255,0.05)"),
+            bargap=0.2, bargroupgap=0.05,
         )
         st.plotly_chart(fig_z, use_container_width=True)
 
@@ -509,7 +509,7 @@ with T4:
     GMAP = "https://www.google.com/maps/d/embed?mid=1ei9SCSRMX8W6sjuzLmaIbXUYBSy3JsM"
     msrc = st.radio("مصدر الخريطة",["🗺️ Google Maps","📍 KMZ المرفوع"],horizontal=True)
     if "Google" in msrc:
-        st.markdown(f'<iframe src="{GMAP}" width="100%" height="560" style="border:0;border-radius:12px" allowfullscreen></iframe>',
+        st.markdown(f'<iframe src="{GMAP}" width="100%" height="680" style="border:0;border-radius:12px;min-height:680px" allowfullscreen></iframe>',
                     unsafe_allow_html=True)
         st.caption("📌 من Google My Maps — يتحدث عند تعديل الخريطة مباشرة")
     else:
@@ -520,7 +520,7 @@ with T4:
             c2.metric("⬟ مضلعات",sum(1 for p in placemarks if p["type"]=="polygon"))
             c3.metric("〰 خطوط",sum(1 for p in placemarks if p["type"]=="line"))
             m=build_map(placemarks)
-            if m: st_folium(m,width="100%",height=520,returned_objects=[])
+            if m: st_folium(m,width="100%",height=680,returned_objects=[])
         else:
             st.info("KMZ غير متاح حالياً")
 
