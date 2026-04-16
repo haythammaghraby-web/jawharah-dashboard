@@ -13,6 +13,8 @@ import plotly.graph_objects as go
 import requests, zipfile, io
 from datetime import datetime, timedelta
 from lxml import etree
+import streamlit.components.v1 as components
+import pathlib
 
 # ═══════════════════════════════════════════════════════════════
 #  CONFIG
@@ -342,7 +344,7 @@ st.divider()
 # ═══════════════════════════════════════════════════════════════
 #  TABS
 # ═══════════════════════════════════════════════════════════════
-T1,T2,T3,T4,T5 = st.tabs(["📊 ملخص المشروع","🏗️ المناطق","📋 التصاريح","🗺️ الخريطة","📈 تحليلات"])
+T1,T2,T3,T4,T5,T6 = st.tabs(["📊 ملخص المشروع","🏗️ المناطق","📋 التصاريح","🗺️ الخريطة","📈 تحليلات","🔵 شبكة الأنابيب"])
 
 # ──────── TAB 1 ────────
 with T1:
@@ -585,3 +587,12 @@ with T5:
 
 st.divider()
 st.caption(f"💎 مشروع الجوهرة  ●  {datetime.now().strftime('%Y-%m-%d %H:%M')}  ●  تحديث كل {REFRESH_MIN} دقائق")
+
+# ──────── TAB 6: شبكة الأنابيب ────────
+with T6:
+    pipes_html_path = pathlib.Path(__file__).parent / "pipes_map.html"
+    if pipes_html_path.exists():
+        html_content = pipes_html_path.read_text(encoding="utf-8")
+        components.html(html_content, height=780, scrolling=False)
+    else:
+        st.warning("ملف خريطة الأنابيب غير موجود. تأكد من رفع pipes_map.html في نفس مجلد dashboard.py")
